@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D Rigidbody;
     public Camera MainCamera;
     public float Speed = 5;
+    public int Damage = 5;
     public float RotationSpeed = 5f;
     public bool OnlyKeyboard;
 
