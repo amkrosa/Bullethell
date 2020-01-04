@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Pathfinding;
 
 public class Enemy : MonoBehaviour
 {
     int MaximumHealth = 100;
     public int CurrentHealth;
     public float HealthPercentage;
-
+    public AIPath Pathing;
+    
+  
     // Start is called before the first frame update
     void Start()
     {
- 
+        Pathing = gameObject.GetComponent<AIPath>();
+        Pathing.canMove = false;
+        Pathing.canSearch = false;
         CurrentHealth = MaximumHealth;
         HealthPercentage = 100;
     }
