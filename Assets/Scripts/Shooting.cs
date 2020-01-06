@@ -13,7 +13,7 @@ public class Shooting : MonoBehaviour
             GameObject bullet = Instantiate(BulletPrefab, BulletOrigin.position, BulletOrigin.rotation);
             Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
             bulletRb.AddForce(BulletOrigin.up * BulletForce, ForceMode2D.Impulse);
-            bullet.GetComponent<Bullet>().Damage = gameObject.GetComponent<PlayerMovement>().Damage;
+            bullet.GetComponent<Bullet>().Damage = gameObject.GetComponent<Player>().Damage;
         }
     }
 }
