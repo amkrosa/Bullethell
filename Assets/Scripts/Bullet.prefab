@@ -135,3 +135,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 0
+  BulletType: 0
+  Rb: {fileID: 3367887589190081443}

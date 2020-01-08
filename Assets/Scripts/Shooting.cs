@@ -3,6 +3,7 @@
 public class Shooting : MonoBehaviour
 {
     public GameObject BulletPrefab;
+    public Player Player;
     public Transform BulletOrigin;
     public float BulletForce;
 
@@ -10,10 +11,11 @@ public class Shooting : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            GameObject bullet = Instantiate(BulletPrefab, BulletOrigin.position, BulletOrigin.rotation);
-            Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
-            bulletRb.AddForce(BulletOrigin.up * BulletForce, ForceMode2D.Impulse);
-            bullet.GetComponent<Bullet>().Damage = gameObject.GetComponent<Player>().Damage;
+            Bullet bullet = BulletsPool.Instance.GetBullet(BulletType.Arrow);
+            bullet.transform.position = BulletOrigin.position;
+            bullet.transform.rotation = BulletOrigin.rotation;
+            bullet.Rb.AddForce(BulletOrigin.up * BulletForce, ForceMode2D.Impulse);
+            bullet.Damage = Player.Damage;
         }
     }
 }
