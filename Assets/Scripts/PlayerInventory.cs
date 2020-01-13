@@ -5,6 +5,11 @@ public class PlayerInventory : Singleton<PlayerInventory>
 {
     public Item Bullet;
 
+    private void Start()
+    {
+        Bullet = GameManager.Instance.ItemsDb.Items[0];
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
