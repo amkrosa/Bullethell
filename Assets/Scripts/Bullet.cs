@@ -6,10 +6,15 @@ public class Bullet : MonoBehaviour, IUpdateTick
     private const int LiveTime = 4;
 
     public int Damage;
-    public BulletType BulletType;
+    public int Id;
     public Rigidbody2D Rb;
 
     private float _creationTime;
+
+    public void Setup(int id)
+    {
+        Id = id;
+    }
 
     private void OnEnable()
     {

@@ -2,24 +2,24 @@
 
 public class BulletsPool : Singleton<BulletsPool>
 {
-    public Bullet BulletPrefab; //todo scriptable with diffrent bullet prefabs
-    private Dictionary<BulletType, Queue<Bullet>> _pool = new Dictionary<BulletType, Queue<Bullet>>();
+    private Dictionary<int, Queue<Bullet>> _pool = new Dictionary<int, Queue<Bullet>>();
 
-    public Bullet GetBullet(BulletType type)
+    public Bullet GetBullet(int itemId)
     {
         Queue<Bullet> queue;
 
-        if(!_pool.TryGetValue(type, out queue))
+        if(!_pool.TryGetValue(itemId, out queue))
         {
             queue = new Queue<Bullet>();
-            _pool.Add(type, queue);
+            _pool.Add(itemId, queue);
         }
 
         Bullet bullet;
 
         if (queue.Count == 0)
         {
-            bullet = Instantiate(BulletPrefab);
+            bullet = Instantiate(GameManager.Instance.ItemsDb.GetItem(itemId).Prefab.GetComponent<Bullet>());
+            bullet.Setup(itemId);
             return bullet;
         }
         else
@@ -33,6 +33,6 @@ public class BulletsPool : Singleton<BulletsPool>
     public void ReturnToPool(Bullet bullet)
     {
         bullet.gameObject.SetActive(false);
-        _pool[bullet.BulletType].Enqueue(bullet);
+        _pool[bullet.Id].Enqueue(bullet);
     }
 }

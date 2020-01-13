@@ -2,20 +2,28 @@
 
 public class Shooting : MonoBehaviour
 {
-    public GameObject BulletPrefab;
+    private const float ShootingTreshold = 0.1f;
+
     public Player Player;
     public Transform BulletOrigin;
     public float BulletForce;
 
+    private float _lastShoot;
+
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButton("Fire1"))
         {
-            Bullet bullet = BulletsPool.Instance.GetBullet(BulletType.Arrow);
-            bullet.transform.position = BulletOrigin.position;
-            bullet.transform.rotation = BulletOrigin.rotation;
-            bullet.Rb.AddForce(BulletOrigin.up * BulletForce, ForceMode2D.Impulse);
-            bullet.Damage = Player.Damage;
+            if (Time.time - _lastShoot > ShootingTreshold)
+            {
+                _lastShoot = Time.time;
+                Debug.Log(PlayerInventory.Instance.Bullet.Name);
+                Bullet bullet = BulletsPool.Instance.GetBullet(PlayerInventory.Instance.Bullet.Id);
+                bullet.transform.position = BulletOrigin.position;
+                bullet.transform.rotation = BulletOrigin.rotation;
+                bullet.Rb.AddForce(BulletOrigin.up * BulletForce, ForceMode2D.Impulse);
+                bullet.Damage = Player.Damage;
+            }
         }
     }
 }
