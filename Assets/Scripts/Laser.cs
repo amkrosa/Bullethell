@@ -5,7 +5,7 @@ using UnityEngine;
 public class Laser : MonoBehaviour
 {
     // Start is called before the first frame update
-    public int Damage = 1;
+    public int Damage = 10;
     private LineRenderer _lineRenderer;
     // Use this for initialization
     void Start()
@@ -21,9 +21,10 @@ public class Laser : MonoBehaviour
         if (hit.collider)
         {
             _lineRenderer.SetPosition(1, new Vector3(hit.point.x, hit.point.y, transform.position.z));
-            if (hit.collider.tag == "Player" && hit.collider.GetComponent<Player>().isHit==false)
+            if (hit.collider.tag == "Player" && hit.collider.GetComponent<Player>().InvulnerabilityLeft<=0)
             {
                 hit.collider.GetComponent<Player>().Health -= Damage;
+
             }
         }
         else

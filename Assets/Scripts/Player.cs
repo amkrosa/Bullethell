@@ -1,21 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    Collider2D collider;
     public int Damage = 5;
     public int Health = 100;
-    float invulnerabilityTime = 0.22f;
+    private float _invulnerabilityTime = 0.5f;
+    private float _invulnerabilityLeft = 0;
+
+    [Obsolete("isHit is deprecated, please use InvulnerabilityLeft instead.")]
     public bool isHit=false;
-    private IEnumerator playerHit;
+
+    public float InvulnerabilityLeft { get => _invulnerabilityLeft; set => _invulnerabilityLeft = value; }
 
     // Start is called before the first frame update
     void Start()
     {
-        collider = gameObject.GetComponent<PolygonCollider2D>();
-        playerHit = PlayerIsHit(invulnerabilityTime);
     }
 
     // Update is called once per frame
@@ -24,21 +26,17 @@ public class Player : MonoBehaviour
         
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnCollisionStay2D(Collision2D col)
     {
-        if ((col.gameObject.tag=="Enemy" || col.gameObject.tag == "EnemyAttack") && isHit == false)
+        Debug.Log(col.gameObject.tag);
+        if (_invulnerabilityLeft <= 0)
         {
-            if (col.gameObject.tag == "Enemy") Health -= 5;
-            isHit = true;
-            StartCoroutine(playerHit);
-            StopCoroutine(playerHit);
-            isHit = false;
+            if (col.gameObject.tag == "Enemy")
+            {
+                Health -= 5;
+                _invulnerabilityLeft = _invulnerabilityTime;
+            }
         }
-
-    }
-
-    IEnumerator PlayerIsHit(float invTime)
-    {
-        yield return new WaitForSecondsRealtime(invTime);
+        else _invulnerabilityLeft -= Time.deltaTime;
     }
 }

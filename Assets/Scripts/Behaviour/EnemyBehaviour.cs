@@ -33,6 +33,7 @@ public class EnemyBehaviour : MonoBehaviour
             foreach (IState state in States)
             {
                 EnemyStateMachine.ChangeState(state);
+                yield return new WaitForSecondsRealtime(1.33f);
                 EnemyStateMachine.Update();
                 yield return new WaitForSecondsRealtime(5f);
             }
@@ -123,17 +124,18 @@ public class CrossLaserPatternState : IState
         Debug.Log("Entered state: CrossBeamPatternState");
         enemy.FreezePosition(true);
         enemy.SetPathingAI(false);
-        enemy.ResetEnemyPosition();
+        enemy.ResetEnemyPosition(true);
+    }
+    public void OnExecute()
+    {
+        Debug.Log("Executing state: CrossBeamPatternState");
+
         GameObject Laser1 = Object.Instantiate(enemy.Laser);
         GameObject Laser2 = Object.Instantiate(enemy.Laser);
         GameObject Laser3 = Object.Instantiate(enemy.Laser);
         GameObject Laser4 = Object.Instantiate(enemy.Laser);
         Lasers = new GameObject[] { Laser1, Laser2, Laser3, Laser4 };
-    }
-    public void OnExecute()
-    {
-        Debug.Log("Executing state: CrossBeamPatternState");
-        
+
         for (int i=0; i<4; i++)
         {
             Lasers[i].transform.SetParent(enemy.center.transform);

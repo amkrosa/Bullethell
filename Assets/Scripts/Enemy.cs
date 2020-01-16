@@ -11,10 +11,12 @@ public class Enemy : MonoBehaviour
     public float HealthPercentage;
     public Vector3 OriginalPosition { get; private set; }
     public GameObject center;
-    Vector3 CurrentPosition;
-    Rigidbody2D _rigidbody;
-    AIPath _pathing;
+    public Vector3 CurrentPosition { get; private set; }
+    private Rigidbody2D _rigidbody;
+    private AIPath _pathing;
+    private bool _isResettingPosition;
     public GameObject Laser;
+    private Transform _transform;
 
 
     // Start is called before the first frame update
@@ -22,7 +24,8 @@ public class Enemy : MonoBehaviour
     {
         _pathing = gameObject.GetComponent<AIPath>();
         _rigidbody = gameObject.GetComponent<Rigidbody2D>();
-        OriginalPosition = gameObject.GetComponent<Transform>().position;
+        OriginalPosition = transform.position;
+        _transform = gameObject.GetComponent<Transform>();
         _pathing.canMove = false;
         _pathing.canSearch = false;
         CurrentHealth = MaximumHealth;
@@ -34,9 +37,10 @@ public class Enemy : MonoBehaviour
     {
         HealthPercentage = (float)CurrentHealth / MaximumHealth;
         if (CurrentHealth <= 0)
-        {
             Destroy(gameObject);
-        }
+
+        if (_isResettingPosition)
+            ResetEnemyPosition();
     }
 
     void FixedUpdate()
@@ -62,8 +66,20 @@ public class Enemy : MonoBehaviour
         _pathing.canMove = value;
         _pathing.canSearch = value;
     }
-    public void ResetEnemyPosition()
+    private void ResetEnemyPosition()
     {
-        gameObject.GetComponent<Transform>().position = OriginalPosition;
+        if (Vector3.Distance(transform.position, OriginalPosition) < 0.001f)
+        {
+            _isResettingPosition = false;
+        }
+        else
+        {
+            float step = 7.5f * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, OriginalPosition, step);
+        }
+    }
+    public void ResetEnemyPosition(bool value)
+    {
+        _isResettingPosition = value;
     }
 }
