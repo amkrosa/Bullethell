@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
         Debug.Log(col.gameObject.tag);
         if (_invulnerabilityLeft <= 0)
         {
-            if (col.gameObject.tag == "Enemy")
+            if (col.gameObject.tag == Tags.Enemy)
             {
                 Health -= 5;
                 _invulnerabilityLeft = _invulnerabilityTime;

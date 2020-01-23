@@ -14760,6 +14760,7 @@ MonoBehaviour:
   HealthPercentage: 0
   center: {fileID: 1902552521}
   Laser: {fileID: 3100180202650559836, guid: 0e8f4ab56c42a574189687cbe784181d, type: 3}
+  Beam: {fileID: 6346684006536660445, guid: 8459be1c6bf08844d8fbd18a186556a1, type: 3}
 --- !u!114 &868816584
 MonoBehaviour:
   m_ObjectHideFlags: 0

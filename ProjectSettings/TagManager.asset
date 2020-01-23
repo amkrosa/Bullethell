@@ -9,6 +9,7 @@ TagManager:
   - ArenaEntrance
   - EnemyHealthBar
   - EnemyAttack
+  - EnemyProjectile
   layers:
   - Default
   - TransparentFX

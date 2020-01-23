@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     private AIPath _pathing;
     private bool _isResettingPosition;
     public GameObject Laser;
+    public GameObject Beam;
     private Transform _transform;
 
 
