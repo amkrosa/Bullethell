@@ -15,16 +15,19 @@ public class Player : MonoBehaviour
 
     public float InvulnerabilityLeft { get => _invulnerabilityLeft; set => _invulnerabilityLeft = value; }
 
-    // Start is called before the first frame update
     void Start()
     {
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if(Health <= 0)
+        {
+            EndGame.Instance.Lose.SetActive(true);
+        }
     }
+
 
     void OnCollisionStay2D(Collision2D col)
     {

@@ -38,10 +38,15 @@ public class Enemy : MonoBehaviour
     {
         HealthPercentage = (float)CurrentHealth / MaximumHealth;
         if (CurrentHealth <= 0)
+        {
+            EndGame.Instance.Win.SetActive(true);
             Destroy(gameObject);
+        }
+         
 
         if (_isResettingPosition)
             ResetEnemyPosition();
+
     }
 
     void FixedUpdate()
